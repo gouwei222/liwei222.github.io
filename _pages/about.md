@@ -7,7 +7,7 @@ redirect_from:
   - /about.html
 ---
 
-# Welcome to liwei's website!
+## Welcome to liwei's website!
 
 I completed my Master's degree at **Beihang University** in January 2023 and my Bachelor's degree at **Jilin University**.
 My research interest includes computer vision and machine learning.
