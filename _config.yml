@@ -24,7 +24,7 @@ author:
   # Biographic information
   avatar           : "profile.png"
   name             : "Li Wei"
-  pronouns         : "He"  
+  pronouns         : #"He"  
   bio              : "A junior engineer with a keen interest in artificial intelligence."
   location         : "China,Beijing"
   employer         : "Beihang University"
