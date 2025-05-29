@@ -7,9 +7,11 @@ redirect_from:
   - /about.html
 ---
 
-Welcome to liwei's website!
+# Welcome to liwei's website!
+
 I completed my Master's degree at **Beihang University** in January 2023 and my Bachelor's degree at **Jilin University**.
-I am currently an Algorithm Engineer at **QiFu Technology**, with a focus on **recommendation systems**, **causal inference**, and **AI agents**.
+My research interest includes computer vision and machine learning.
+I am currently an Algorithm Engineer at **QiFu Technology(360 shuke)**, with a focus on **recommendation systems**, **causal inference**, and **AI agents**.
 
 A data-driven personal website
 ======
