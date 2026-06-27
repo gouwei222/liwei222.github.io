@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Li Wei · 算法工程师</title>
+<style>
+:root {
+  --bg: #fff;
+  --sidebar-bg: #f8f9fa;
+  --text: #494e52;
+  --heading: #3d4144;
+  --accent: #52adc8;
+  --border: #e9ecef;
+  --link: #52adc8;
+  --tag-bg: #e3f2f7;
+  --w: 1100px;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif; color:var(--text); background:#fff; line-height:1.7; }
+
+/* Layout */
+.masthead { background:#1a1a2e; color:#fff; position:sticky; top:0; z-index:100; }
+.masthead .inner { max-width:var(--w); margin:0 auto; display:flex; }
+.masthead a { color:#ccc; text-decoration:none; padding:14px 18px; font-size:13px; font-weight:600; letter-spacing:.5px; }
+.masthead a:hover, .masthead a.active { color:#fff; background:rgba(255,255,255,.08); }
+.masthead .menu-toggle { display:none; }
+
+.page { max-width:var(--w); margin:0 auto; display:flex; min-height:100vh; }
+.sidebar { width:220px; flex-shrink:0; background:var(--sidebar-bg); padding:30px 20px; border-right:1px solid var(--border); font-size:13px; }
+.sidebar .avatar { width:120px; height:120px; border-radius:50%; margin:0 auto 16px; display:block; background:#ddd; object-fit:cover; }
+.sidebar .name { font-size:18px; font-weight:700; text-align:center; color:var(--heading); }
+.sidebar .bio { text-align:center; font-size:12px; color:#888; margin:6px 0 14px; }
+.sidebar .loc { text-align:center; font-size:12px; color:#999; margin-bottom:14px; }
+.sidebar .links { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-bottom:16px; }
+.sidebar .links a { font-size:11px; padding:3px 8px; background:#e9ecef; color:#666; border-radius:4px; text-decoration:none; }
+.sidebar .links a:hover { background:var(--accent); color:#fff; }
+
+.content { flex:1; padding:30px 40px; min-width:0; }
+.content h1 { font-size:26px; color:var(--heading); margin-bottom:6px; }
+.content h2 { font-size:20px; color:var(--heading); margin:30px 0 12px; padding-bottom:6px; border-bottom:1px solid var(--border); }
+.content h3 { font-size:16px; color:var(--heading); margin:20px 0 8px; }
+.content p { margin-bottom:10px; font-size:14px; }
+.content table { border-collapse:collapse; width:100%; margin:10px 0; font-size:13px; }
+.content th, .content td { border:1px solid var(--border); padding:8px 12px; text-align:left; }
+.content th { background:#f8f9fa; font-weight:600; }
+
+/* Cards for projects */
+.card { border:1px solid var(--border); border-radius:6px; padding:16px 20px; margin-bottom:12px; background:#fff; transition:box-shadow .2s; }
+.card:hover { box-shadow:0 2px 8px rgba(0,0,0,.08); }
+.card-title { font-weight:700; font-size:15px; color:var(--heading); }
+.card-sub { font-size:12px; color:#999; margin-bottom:6px; }
+.card p { font-size:13px; }
+.tags { display:flex; gap:5px; flex-wrap:wrap; margin-top:8px; }
+.tag { font-size:10px; padding:2px 8px; border-radius:10px; background:var(--tag-bg); color:var(--accent); }
+
+/* Q&A */
+.qa { border:1px solid var(--border); border-radius:6px; margin-bottom:8px; overflow:hidden; }
+.qa summary { padding:12px 16px; cursor:pointer; font-weight:600; font-size:14px; background:#fafbfc; user-select:none; }
+.qa summary:hover { color:var(--accent); }
+.qa .a { padding:12px 16px 12px 28px; font-size:13px; border-top:1px solid var(--border); line-height:1.8; white-space:pre-wrap; }
+.badge { font-size:10px; padding:2px 7px; border-radius:9px; font-weight:600; margin-left:6px; }
+.badge-e { background:#dcfce7; color:#15803d; }
+.badge-m { background:#fef9c3; color:#a16207; }
+.badge-h { background:#fee2e2; color:#b91c1c; }
+
+/* Tabs */
+.tab-buttons { display:flex; gap:2px; margin-bottom:20px; flex-wrap:wrap; }
+.tab-btn { padding:8px 16px; border:1px solid var(--border); background:#fff; cursor:pointer; font-size:13px; border-radius:4px 4px 0 0; transition:all .2s; }
+.tab-btn:hover { background:#f0f4f8; }
+.tab-btn.active { background:var(--accent); color:#fff; border-color:var(--accent); }
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+
+/* Timeline */
+.timeline { position:relative; padding-left:20px; }
+.timeline::before { content:''; position:absolute; left:6px; top:4px; bottom:4px; width:2px; background:var(--border); }
+.tl-item { position:relative; margin-bottom:20px; padding-left:10px; }
+.tl-item::before { content:''; position:absolute; left:-17px; top:5px; width:10px; height:10px; border-radius:50%; background:var(--accent); border:2px solid #fff; box-shadow:0 0 0 2px var(--accent); }
+.tl-date { font-size:11px; color:#999; }
+.tl-title { font-weight:700; font-size:14px; }
+
+footer { text-align:center; padding:30px; font-size:12px; color:#999; border-top:1px solid var(--border); max-width:var(--w); margin:0 auto; }
+
+@media (max-width:768px) {
+  .page { flex-direction:column; }
+  .sidebar { width:100%; border-right:none; border-bottom:1px solid var(--border); padding:20px; text-align:center; }
+  .content { padding:20px; }
+  .masthead .inner { flex-wrap:wrap; }
+}
+</style>
+</head>
+<body>
+
+<!-- Masthead -->
+<nav class="masthead">
+  <div class="inner">
+    <a href="#" class="active" onclick="switchTab('about');return false">About</a>
+    <a href="#" onclick="switchTab('cv');return false">CV</a>
+    <a href="#" onclick="switchTab('projects');return false">Projects</a>
+    <a href="#" onclick="switchTab('qa');return false">面试题库</a>
+  </div>
+</nav>
+
+<div class="page">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="avatar" style="background:linear-gradient(135deg,#52adc8,#3a7bd5);display:flex;align-items:center;justify-content:center;color:#fff;font-size:36px;font-weight:700;">李</div>
+    <div class="name">Li Wei</div>
+    <div class="bio">高级算法工程师<br>推荐系统 & 因果推断 & LLM Agent<br>校招身份入职 · 2年2次晋升</div>
+    <div class="loc">📍 北京 · 北航硕士</div>
+    <div class="links">
+      <a href="https://github.com/gouwei222">🐙 GitHub</a>
+      <a href="mailto:573904359@qq.com">📧 Email</a>
+    </div>
+    <div style="font-size:11px;color:#aaa;text-align:center;margin-top:10px;">
+      Python · PyTorch · XGB/LGB<br>
+      ESMM · Causal Forest · Langflow
+    </div>
+  </aside>
+
+  <!-- Content -->
+  <main class="content">
+    <!-- ═══ ABOUT ═══ -->
+    <div class="tab-content active" id="tab-about">
+      <h1>关于我</h1>
+      <p>北京航空航天大学<strong>仪器科学与光电工程学院</strong>硕士（2023 年 1 月毕业），本科毕业于吉林大学<strong>仪器科学与电气工程学院</strong>。</p>
+      <p>校招身份入职 <strong>奇富科技（原 360 数科）AI技术中心-数据智能部</strong>，现任 <strong>高级算法工程师</strong>，2023.11 – 至今，2 年内两次晋升。专注于 <strong>推荐系统</strong>、<strong>因果推断</strong> 与 <strong>LLM Agent</strong> 三个方向。</p>
+      <p>工作涵盖从特征工程、模型选型、纠偏建模到线上部署的全链路，擅长将复杂的业务问题拆解为可量化的算法方案。</p>
+
+      <h2>教育背景</h2>
+      <table>
+        <tr><th>学校</th><th>学院</th><th>学科评估</th><th>时间</th></tr>
+        <tr><td>北京航空航天大学</td><td>仪器科学与光电工程学院</td><td><strong>A+</strong>（与清华并列全国第一）</td><td>2020 – 2023</td></tr>
+        <tr><td>吉林大学</td><td>仪器科学与电气工程学院</td><td><strong>B+</strong>（2025 软科排名全国第 7）</td><td>2015 – 2019</td></tr>
+      </table>
+
+      <h2>研究方向</h2>
+      <ul style="font-size:14px;padding-left:20px;">
+        <li><strong>推荐系统</strong>：多任务学习（ESMM）、曝光/选择偏差纠偏（IPW + K-means）、Wide&Deep、排序与重排</li>
+        <li><strong>因果推断</strong>：RCT 实验设计、因果森林/CATE、Uplift Modeling、工具变量、DID</li>
+        <li><strong>LLM Agent</strong>：Text-to-SQL 校验框架、ReAct 防幻觉、RAG 策略检索、对话路由</li>
+      </ul>
+
+      <h2>工作经历</h2>
+      <div class="card"><div class="card-title">奇富科技（原 360 数科） · AI技术中心-数据智能部</div><div class="card-sub">高级算法工程师 · 2023.11 – 至今 · 校招身份入职 · 2年2次晋升</div><p>用户运营 Agent · 资源位推荐 · 电销坐席智能匹配</p></div>
+      <div class="card"><div class="card-title">滴滴（DiDi） · 网约车平台公司，MPT</div><div class="card-sub">算法工程师 · 2023.04 – 2023.07</div><p>超值出租车呼返策略（因果森林+RCT） · 出租车预估价优化（MLP+兜底）</p></div>
+
+      <h2>技能</h2>
+      <table>
+        <tr><th>类别</th><th>技术</th></tr>
+        <tr><td>语言</td><td>Python, SQL, C/C++</td></tr>
+        <tr><td>深度学习</td><td>PyTorch, TensorFlow, OpenCV</td></tr>
+        <tr><td>机器学习</td><td>XGBoost, LightGBM, scikit-learn</td></tr>
+        <tr><td>推荐系统</td><td>ESMM, Wide&Deep, 召回/排序/重排</td></tr>
+        <tr><td>因果推断</td><td>Causal Forest, IPW, DR, Uplift, RCT</td></tr>
+        <tr><td>LLM Agent</td><td>Langflow, RAG, ReAct, Text-to-SQL</td></tr>
+      </table>
+    </div>
+
+    <!-- ═══ CV ═══ -->
+    <div class="tab-content" id="tab-cv">
+      <h1>CV</h1>
+
+      <h2>Education</h2>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-date">2020 – 2023</div><div class="tl-title">北京航空航天大学 · M.S. 仪器科学与光电工程学院</div><p style="font-size:13px;color:#888;">学科评估 <strong>A+</strong>（与清华并列全国第一）· 硕士论文：基于轻量化卷积神经网络的快速目标检测技术</p></div>
+        <div class="tl-item"><div class="tl-date">2015 – 2019</div><div class="tl-title">吉林大学 · B.S. 仪器科学与电气工程学院</div><p style="font-size:13px;color:#888;">学科评估 <strong>B+</strong>（2025 软科排名全国第 7）</p></div>
+      </div>
+
+      <h2>Work Experience</h2>
+      <p style="font-weight:700;">奇富科技（原 360 数科） · AI技术中心-数据智能部 · 高级算法工程师 · 2023.11 – 至今</p>
+      <p style="font-size:13px;color:#888;margin-bottom:12px;">校招身份入职，2 年内两次晋升至高级算法工程师</p>
+
+      <div class="card">
+        <div class="card-title">用户运营 Agent 系统</div>
+        <p>设计并实现 Text-to-SQL 数据洞察 + 策略生成的 Agent 系统。五道 SQL 校验防线（语法/安全/白名单/逻辑/EXPLAIN）、ReAct 防幻觉框架、RAG 历史策略检索、线性规划切分点优化。支持多轮对话、槽位累积、跨 Skill 上下文携带。</p>
+        <div class="tags"><span class="tag">LLM</span><span class="tag">Agent</span><span class="tag">Text-to-SQL</span><span class="tag">ReAct</span><span class="tag">RAG</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">资源位推荐系统</div>
+        <p>基于 ESMM 多任务学习 + IPW 纠偏的全链路推荐。K-means 用户分群后独立建模，SMD 评估纠偏效果。200+ 维特征体系，线上 AUC 0.78。</p>
+        <div class="tags"><span class="tag">ESMM</span><span class="tag">IPW</span><span class="tag">K-means</span><span class="tag">多任务学习</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">电销坐席智能匹配</div>
+        <p>Wide&Deep 模型 + 线性规划求解全局最优分配。拉格朗日松弛实现实时分配框架。</p>
+        <div class="tags"><span class="tag">Wide&Deep</span><span class="tag">线性规划</span><span class="tag">拉格朗日松弛</span></div>
+      </div>
+
+      <p style="font-weight:700;margin-top:16px;">滴滴（DiDi） · 网约车平台公司，MPT · 算法工程师 · 2023.04 – 2023.07</p>
+
+      <div class="card">
+        <div class="card-title">超值出租车呼返策略优化</div>
+        <p>Base_ECR (XGBoost) + Delta_ECR (因果森林) 双模型，RCT 实验 + CATE 个性化补贴。单勾/多勾分组建模，AUUC 评估补贴排序性。</p>
+        <div class="tags"><span class="tag">因果森林</span><span class="tag">RCT</span><span class="tag">CATE</span><span class="tag">XGBoost</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">出租车预估价优化</div>
+        <p>MLP 回归模型，长/短单分组建模。多维特征工程 + 锚定快车兜底方案，极端 Badcase 率大幅下降。</p>
+        <div class="tags"><span class="tag">MLP</span><span class="tag">回归</span><span class="tag">特征工程</span><span class="tag">兜底策略</span></div>
+      </div>
+    </div>
+
+    <!-- ═══ PROJECTS ═══ -->
+    <div class="tab-content" id="tab-projects">
+      <h1>Projects</h1>
+
+      <div class="card">
+        <div class="card-title">用户运营 Agent 系统</div>
+        <div class="card-sub">LLM · Agent · Langflow</div>
+        <p>面向运营人员的智能 Agent 系统——对话路由、Text-to-SQL 数据洞察、策略生成。核心贡献：五道 SQL 校验防线 + ReAct 防幻觉 + RAG 策略检索 + 维度穷举搜索 + 加权评分切分点优化。</p>
+        <div class="tags"><span class="tag">Langflow</span><span class="tag">RAG</span><span class="tag">ReAct</span><span class="tag">Text-to-SQL</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">资源位推荐系统</div>
+        <div class="card-sub">推荐系统 · 因果推断</div>
+        <p>APP 内多资源位个性化推荐。ESMM 多任务学习 + IPW 纠偏 + K-means 分群建模。200+ 维特征，线上 AUC 0.78。</p>
+        <div class="tags"><span class="tag">ESMM</span><span class="tag">IPW</span><span class="tag">K-means</span><span class="tag">SMD</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">电销坐席智能匹配</div>
+        <div class="card-sub">匹配优化 · 运筹</div>
+        <p>Wide&Deep + 线性规划求解全局最优名单分配。拉格朗日松弛实现实时分配。</p>
+        <div class="tags"><span class="tag">Wide&Deep</span><span class="tag">线性规划</span><span class="tag">拉格朗日松弛</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">超值出租车呼返策略优化</div>
+        <div class="card-sub">因果推断 · RCT</div>
+        <p>Base_ECR (XGBoost) + Delta_ECR (因果森林) 双模型。RCT + CATE 个性化弹性。单勾/多勾分组建模，AUUC 评估。</p>
+        <div class="tags"><span class="tag">因果森林</span><span class="tag">RCT</span><span class="tag">CATE</span><span class="tag">XGBoost</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">出租车预估价优化</div>
+        <div class="card-sub">回归 · MLP</div>
+        <p>MLP 回归模型，长/短单分组建模。多维特征工程 + 锚定快车兜底方案。</p>
+        <div class="tags"><span class="tag">MLP</span><span class="tag">特征工程</span><span class="tag">兜底策略</span></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">轻量化 CNN 快速目标检测</div>
+        <div class="card-sub">硕士论文 · CV</div>
+        <p>基于 CSPDarknet53 + 注意力机制改进，保持精度同时大幅降低参数量和推理延迟。</p>
+        <div class="tags"><span class="tag">CSPDarknet53</span><span class="tag">目标检测</span><span class="tag">PyTorch</span></div>
+      </div>
+    </div>
+
+    <!-- ═══ INTERVIEW Q&A ═══ -->
+    <div class="tab-content" id="tab-qa">
+      <h1>面试题库 <span style="font-size:14px;color:#888;">32 题 · 推荐系统 & LLM Agent</span></h1>
+      <p style="margin-bottom:16px;color:#888;">点击题目展开答案</p>
+
+      <h2>一、资源位推荐</h2>
+      <details class="qa"><summary><span class="badge badge-e">基础</span> ESMM 为什么不能直接训一个 CVR 模型？</summary><div class="a">两个致命问题：
+① 选择偏差（Selection Bias）：CVR 只能用点击样本训练，但 inference 在曝光全集——训练空间 ≠ 推理空间。
+② 样本稀疏：曝光 >> 点击 >> 转化，CVR 可用样本极少，极易过拟合。
+ESMM 解法：pCTR 和 pCTCVR 都可全量训练，pCVR = pCTCVR / pCTR 间接学习。CVR tower 共享 CTR 的 embedding。</div></details>
+
+      <details class="qa"><summary><span class="badge badge-e">基础</span> IPW 中 min(log(1/p), 20) 截断为什么？</summary><div class="a">逐层拆解：
+• 1/p：p=0.0001 → 权重=10000，一个样本主导 loss。
+• log(1/p)：把 [1,∞) 压缩到 [0,∞)，10000→9.2。
+• min(...,20)：硬截断到 20。
+本质是 bias-variance tradeoff：截断引入少量 bias，但大幅降 variance。</div></details>
+
+      <details class="qa"><summary><span class="badge badge-e">基础</span> 纠偏模型 AUC=0.7，为什么「不是越高越好」？</summary><div class="a">这个模型预测的是业务方的「分配规则」（propensity），不是用户真实偏好。AUC=0.95 说明完美复现了业务规则——但业务规则的产物（有偏曝光）正是要纠偏的对象。正确评估维度是 SMD 是否下降。</div></details>
+
+      <details class="qa"><summary><span class="badge badge-m">进阶</span> K-means 分簇 IPW vs 全量 IPW？聚类解决什么根因？</summary><div class="a">全量 IPW 掩盖组间异质性。A 类用户天然倾向活动 X，B 类倾向 Y——全量 IPW 会把 B 类中 Y 的低转化错误归因于「曝光不足」，赋予不合理高权重。分簇后每簇内用户行为同质，曝光差异更可能反映真实 bias，各簇互不污染。</div></details>
+
+      <details class="qa"><summary><span class="badge badge-m">进阶</span> X→T→Y 的 unconfoundedness 假设不成立怎么办？</summary><div class="a">①敏感性分析——量化 confounder 需要多强才能推翻结论。②工具变量 IV（活动排期自然轮换）。③DID + 自然实验。④双稳健估计 DR（propensity+outcome，一个正确就一致）。⑤在线 A/B 最终裁判。</div></details>
+
+      <details class="qa"><summary><span class="badge badge-h">高阶</span> 离线只取第一条曝光，线上多次请求怎么办？</summary><div class="a">①实时特征更新（Kafka/Flink）——session 级特征（今日曝光/点击次数）。②频控+多样性。③Thompson Sampling 探索。④Platt scaling 分布校准（训练分布 ≠ 线上分布）。</div></details>
+
+      <details class="qa"><summary><span class="badge badge-h">高阶</span> 冷启动活动零曝光怎么分配资源位？</summary><div class="a">方案一（属性相似度）：新活动属性 embedding → 最相似历史活动 CTR/CVR 作为先验。方案二（Thompson Sampling）：Beta(1,1) 宽先验，每次采样选最高值曝光，随时间收敛。方案三（UCB）：score + c×sqrt(log(t)/n)，不确定性项自动给探索机会。实际系统通常方案一+方案二混合。</div></details>
+
+      <h2>二、电销坐席匹配</h2>
+      <details class="qa"><summary><span class="badge badge-e">基础</span> XGB 建模 user×坐席 为什么不行？</summary><div class="a">三层根因：①XGB 是加性模型——user+坐席 效应被近似为两相加，组合效应丢失。②样本稀疏——每个 user×seat 只有几十条样本，树不会为此分裂。③叶子区域均值——同一 user 不同 seat 大概率落同一叶子→打分接近→差异度小。XGB 学到的本质是「用户动支意愿」，坐席差异被平均掉了。</div></details>
+
+      <details class="qa"><summary><span class="badge badge-e">基础</span> 为什么不建金额回归而建二分类？</summary><div class="a">金额长尾分布——5% 用户贡献 80% 金额。MSE 对称惩罚：预测 100 实际 10000 的 error² 主导梯度。学好长尾→中间不准。业界通常建多个二分类，在分类序上看金额排序性。</div></details>
+
+      <details class="qa"><summary><span class="badge badge-m">进阶</span> Wide&Deep 为什么比 XGB 效果好？</summary><div class="a">①Wide 侧——手动交叉特征直接喂入，离散跳变，差异化天然大。②Deep 侧——embedding+MLP 学隐式交叉。③XGB 对高基数类别交叉效果差（笛卡尔积基数极高，分裂收益不够）。DeepFM 不用是因为 FM 侧学不了精细的业务逻辑交叉。</div></details>
+
+      <details class="qa"><summary><span class="badge badge-h">高阶</span> 拉格朗日松弛在实时分配解决什么？</summary><div class="a">核心难题：序贯决策 vs 全局约束的耦合。分配 user_1 时不知道后面还有多少用户、什么质量。拉格朗日松弛把「坐席名单量均衡」从必须满足变成违反就罚款——每个坐席维护一个"价格" λ，拿超了价格涨，后面用户自然不选。类比高速收费站——每个司机看哪个口排队短往哪走，无需中央调度。</div></details>
+
+      <h2>三、用户运营 Agent</h2>
+      <details class="qa"><summary><span class="badge badge-e">基础</span> 为什么需要「对话路由」？</summary><div class="a">三个失败 case：①「帮我写邮件」→槽位全空→LLM 硬凑维度→跑偏。②「加个渠道过滤」→不认为是补充→丢失上一轮条件。③两个 Skill 互不知道上下文→切换时重新描述。对话路由做三件事：意图分类、增量补充合并、跨槽位携带。</div></details>
+
+      <details class="qa"><summary><span class="badge badge-e">基础</span> 判断新话题 vs 补充为什么用硬规则不用 LLM？</summary><div class="a">①规律足够固定（帮我/我想→新话题，加个/换成→补充），覆盖 90%+。②确定性 100% vs LLM 可能误判。③延迟微秒级 vs 秒级。但正则未命中时走 LLM 兜底——规则覆盖确定性场景，LLM 覆盖边缘场景。</div></details>
+
+      <details class="qa"><summary><span class="badge badge-m">进阶</span> 五道 SQL 校验防线，只留三道你留哪三道？</summary><div class="a">①安全（底线，DROP/INSERT 绝不执行）；②白名单（幻觉是 Text-to-SQL 最大问题——语法正确但字段不存在=业务错误）；③逻辑（GROUP BY 完整性+分区过滤——最常见业务错误）。语法修起来成本低，EXPLAIN 可通过缩小日期绕过。</div></details>
+
+      <details class="qa"><summary><span class="badge badge-m">进阶</span> 修正节点为什么强调「只修改有问题的部分」？</summary><div class="a">文档遇到过：修正节点被告知字段名不对→替换时误删 GROUP BY→引入新错误→再次修正→死循环。限定只改错误点缩小修正空间→稳定性提升。ReAct 的 diff 思路强化这点——先看清楚改了什么，再判断新问题是不是自己引入的。</div></details>
+
+      <details class="qa"><summary><span class="badge badge-m">进阶</span> 为什么用槽位重叠度而不是语义检索匹配模板？</summary><div class="a">数据是结构化的（槽位=key-value），Python 算重叠度确定、毫秒、零成本。语义检索的坑：「老客动支金额按意愿分切效果好」vs「新客动支金额按意愿分切效果差」→embedding 极近但结论相反——一个该优先试一个该跳过。语义检索分不出好坏。</div></details>
+
+      <details class="qa"><summary><span class="badge badge-m">进阶</span> 切分点评分：Lift × log(人群) × 覆盖度惩罚——为什么不能只看 Lift？</summary><div class="a">只看 Lift 会选「极高但极窄」的切分点——圈 50 个人 Lift=10，对运营没意义。三个因子：Lift 保证效果；log(人数)保证规模；覆盖度惩罚让占比倾向 30%。p<0.05 硬门槛。</div></details>
+
+      <details class="qa"><summary><span class="badge badge-h">高阶</span> RAG「经验只定顺序不替代验证」如何强制执行？</summary><div class="a">三层设计：①RAG 输出是 priority_dims+skip_dims+examples（表格，标注仅供参考）。②Python 引擎强制调 test_dimension 拉真实数据，不经过 LLM。③ReAct 拦截跨人群经验迁移——LLM 联想时先验证再输出。绕过→新客经验推老客→AB 无效→浪费预算。</div></details>
+
+      <details class="qa"><summary><span class="badge badge-h">高阶</span> Offer 用规则引擎、数字用 Python 模板——背后的架构原则？</summary><div class="a">同一个原则：能做硬约束的地方，绝对不让 LLM 自由发挥。Offer：LLM「额度高」可能忽略「尚未授信」→Python 硬编码映射。数字：LLM「凭记忆」写数字→记错就编→Python str.replace 填模板。LLM 只负责 qualitative 文案。边界：规则维护成本 > LLM成本+幻觉风险时，才放权。</div></details>
+
+      <h2>四、超值出租车 & 预估价</h2>
+      <details class="qa"><summary><span class="badge badge-e">基础</span> 为什么拆 Base_ECR + Delta_ECR 两个模型？</summary><div class="a">决策公式需要独立判断：Base 低 Delta 高→最终还是低；Base 高 Delta 低→发券没意义。分开建模：Base 用全量数据更准；Delta 用 RCT 数据做无偏弹性估计。ROI = uplift × value - cost。</div></details>
+
+      <details class="qa"><summary><span class="badge badge-m">进阶</span> 因果森林 vs 随机森林本质区别？诚实分割是什么？</summary><div class="a">随机森林预测 Y（发单概率），因果森林预测 τ = Y_T - Y_C（增量）。分裂标准不同——随机森林最小化 Y 方差，因果森林最大化 τ 在叶子间差异。诚实分割：数据分两半，一半决定分裂，一半估计叶子 effect——防止同一批数据既分裂又估计的 overfitting bias。输出 CATE。</div></details>
+
+      <details class="qa"><summary><span class="badge badge-e">基础</span> 为什么选 MLP 不是 XGBoost 做预估价回归？</summary><div class="a">①预估价平滑连续——MLP 平滑，XGBoost 阶梯状。②120+ 特征交互复杂——MLP 隐层自动学，XGB 只能学低阶。③ReLU 不怕大误差——正半区梯度恒为 1，tanh/sigmoid 大误差时梯度消失。</div></details>
+
+      <details class="qa"><summary><span class="badge badge-e">基础</span> 长单短单为什么分开建模？</summary><div class="a">MSE 对误差绝对值天然敏感。长单(100-300元)误差 20→MSE=400；短单(10-20元)误差 5→MSE=25。统一建模时模型更关注长单→短单被高估、长单被低估。分开后各自价格区间内公平竞争。</div></details>
+
+      <h2>综合交叉</h2>
+      <details class="qa"><summary><span class="badge badge-m">进阶</span> Agent vs 传统 ML 项目面试评估侧重点？</summary><div class="a">传统 ML 问「为什么选这个模型」，Agent 问「为什么不在这用 LLM」。Agent 工程师需要知道 LLM 的边界——能写规则不调 LLM，能校验不留隐患，能把失败转化为系统成长。</div></details>
+
+      <details class="qa"><summary><span class="badge badge-h">高阶</span> 从五个项目中选最优区分度的深挖，追问链怎么设计？</summary><div class="a">选用户运营 Agent——展示最完整的问题解决框架。追问链：①「错了转化口径哪道防线拦住？」→考防线边界。②「100 人同时用最大瓶颈？」→考系统思维（从库并发）。③「什么时候该反过来用 LLM 优先？」→考辩证思维。④「运行一年后最大技术债务？」→考演进思维（few-shot 模板劣化）。</div></details>
+    </div>
+  </main>
+</div>
+
+<footer>© 2026 Li Wei · 本地预览版</footer>
+
+<script>
+function switchTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  document.querySelectorAll('.masthead a').forEach(a => a.classList.remove('active'));
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
