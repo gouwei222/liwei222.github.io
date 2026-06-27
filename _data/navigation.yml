@@ -1,0 +1,15 @@
+main:
+  - title: "About"
+    url: /
+
+  - title: "CV"
+    url: /cv/
+
+  - title: "Projects"
+    url: /portfolio/
+
+  - title: "面试题库"
+    url: /interview-qa/
+
+  - title: "Publications"
+    url: /publications/
